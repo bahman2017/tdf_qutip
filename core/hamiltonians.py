@@ -150,3 +150,52 @@ def tau_to_hamiltonian(
         return float(np.interp(tt, t_nodes, E_nodes))
 
     return [[qt.sigmaz(), coeff]]
+
+
+def two_qubit_zz_sum_operator() -> qt.Qobj:
+    """
+    G = σ_z ⊗ I + I ⊗ σ_z (local Z on both qubits, same generator as uncoupled z-splitting).
+    """
+    return qt.tensor(qt.sigmaz(), qt.qeye(2)) + qt.tensor(qt.qeye(2), qt.sigmaz())
+
+
+def tau_to_two_qubit_tdf_hamiltonian(
+    tau: np.ndarray,
+    t: np.ndarray,
+    hbar: float = 1.0,
+) -> list:
+    """
+    Two-qubit TDF Hamiltonian H(t) = E(t) G with G = σ_z⊗I + I⊗σ_z and E = ℏ dτ/dt.
+
+    Same energy construction as :func:`tau_to_hamiltonian`, but the energy couples to
+    the two-qubit ZZ-sum generator instead of a single-qubit σ_z.
+    """
+    E = tau_to_energy(tau, t, hbar=hbar)
+    E = np.asarray(np.real_if_close(E), dtype=float)
+
+    t_flat = np.asarray(t, dtype=float).ravel()
+    E_flat = E.ravel()
+    if t_flat.size != E_flat.size:
+        raise ValueError("Internal shape mismatch between t and energy")
+
+    order = np.argsort(t_flat, kind="mergesort")
+    t_sorted = t_flat[order]
+    E_sorted = E_flat[order]
+    t_u, inv = np.unique(t_sorted, return_inverse=True)
+    counts = np.bincount(inv)
+    E_nodes = np.bincount(inv, weights=E_sorted) / counts
+    t_nodes = t_u
+
+    t_min = float(t_nodes[0])
+    t_max = float(t_nodes[-1])
+
+    def coeff(time: float, args=None) -> float:
+        tt = float(time)
+        if tt <= t_min:
+            return float(E_nodes[0])
+        if tt >= t_max:
+            return float(E_nodes[-1])
+        return float(np.interp(tt, t_nodes, E_nodes))
+
+    G = two_qubit_zz_sum_operator()
+    return [[G, coeff]]

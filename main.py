@@ -18,7 +18,9 @@ from analysis.discrimination import (
 )
 from analysis.plots import plot_timeseries
 from analysis.report import generate_tdf_report
+from analysis.tau_extraction import fit_tau_from_correlations
 from analysis.tau_model_spectrum import analyze_tau_models, phase_magnitude
+from experiments.correlation_test import run_two_qubit_correlation_experiment
 from experiments.decoherence import compare_tdf_vs_fitted_lindblad
 from experiments.interference import run_interference_parameter_sweep
 from experiments.ramsey import run_ramsey_experiment
@@ -259,6 +261,39 @@ def main() -> None:
     print("τ-model discrimination summary v2 (includes structured_stochastic_tau)...")
     run_tdf_discrimination_summary_v2(
         t, out_dir, decoherence_result=decoherence_result
+    )
+
+    print()
+    print("Two-qubit Bell correlations: standard vs TDF (correlated τ)...")
+    corr_res = run_two_qubit_correlation_experiment(
+        t=t, output_dir=out_dir, plot=True, show=False
+    )
+
+    print()
+    print("τ extraction: fit parametric τ to TDF correlation data...")
+    fit_tau_from_correlations(
+        corr_res["t"],
+        corr_res["cxx_tdf"],
+        corr_res["cyy_tdf"],
+        corr_res["chsh_tdf"],
+        initial_guess={
+            "omega": 1.0,
+            "a": 1.0,
+            "nu": 3.0,
+            "sigma": 0.5,
+            "tau_c": 1.0,
+        },
+        bounds=[
+            (0.2, 2.5),
+            (0.05, 2.0),
+            (0.8, 5.0),
+            (0.0, 1.2),
+            (0.12, 5.0),
+        ],
+        method="L-BFGS-B",
+        output_dir=out_dir,
+        save_plots=True,
+        show=False,
     )
 
 

@@ -12,3 +12,6 @@ venv/
 .mypy_cache/
 .ruff_cache/
 *.egg
+
+# Generated figures and CSV exports (local runs)
+outputs/
