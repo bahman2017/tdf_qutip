@@ -72,6 +72,27 @@ Figures live under [`outputs/`](../outputs/). If a file is missing locally, run 
 
 ---
 
+## TDF vs OU (unified-law score)
+
+Single-run figures from `experiments/tdf_vs_ou_unified_law.py` (e.g. **`tdf_vs_ou_unified_law_scores.png`**, relation and stability panels) summarize **one** seed and one window setting. The **unified_score** aggregates how well low-order polynomial relations across observables agree (RMSE, coefficient variability); it is **not** the same as the joint coupling scalar in the previous section.
+
+---
+
+## TDF vs OU (robust statistics)
+
+After `experiments/tdf_vs_ou_unified_law_robust.py`:
+
+* **`tdf_vs_ou_robust_delta_hist.png`** — Spread of Δscore = score_TDF − score_OU over seeds.  
+* **`tdf_vs_ou_robust_bootstrap_violin.png`** — Bootstrap distributions of the unified score (illustrative seed).  
+* **`tdf_vs_ou_robust_permutation.png`** — Null from shuffling relation targets vs observed score.  
+* **`tdf_vs_ou_robust_window_sensitivity.png`** — Whether the ordering TDF vs OU persists when `n_windows` and sweep grid length change.
+
+**Observed:** CSVs under `outputs/` (`tdf_vs_ou_unified_law_seed_scores.csv`, `…_bootstrap.csv`, `…_permutation.csv`, `tdf_vs_ou_unified_law_robust_summary.csv`) store the numbers behind the printed summary.
+
+**Interpretation:** Treat the console **“statistically robustly better”** line as applying only when **all** built-in checks pass (mean Δscore > 0, 95% CI for mean Δ excludes 0, win rate ≥ 0.7, median permutation p for TDF < 0.05, TDF ahead across window and grid sensitivity tables). Otherwise the comparison is **inconclusive** or **setting-dependent** under this battery.
+
+---
+
 ## Takeaways
 
 * **Observed:** Correlation data do not pin down a unique τ; a structured **low-loss manifold** appears in multi-start fits.  
@@ -79,6 +100,7 @@ Figures live under [`outputs/`](../outputs/). If a file is missing locally, run 
 * **Interpretation:** That mix motivates an **effective spectrum** (soft + tower) rather than a single noise rate.  
 * **Observed:** Offset-style χ fits can beat flat n² on **sparse** tower data.  
 * **Observed:** The colored-noise baseline on the **same** generator remains **competitive** on the joint-coupling scalar—**stronger metrics or data** would be needed for a sharp claim.
+* **Observed:** The **unified-law** comparison uses a **different** scalar; the **robust** script adds seeds, bootstrap CIs, permutations, and sensitivity—read the printed checklist and CSVs before generalizing.
 
 ---
 

@@ -7,8 +7,8 @@ QuTiP-based research code for simulating quantum systems with **custom noise mod
 | Path | Role |
 |------|------|
 | `core/` | Hamiltonians, τ-model, noise channels, time evolution |
-| `experiments/` | Ramsey, Δτ interference, decoherence comparisons |
-| `analysis/` | Metrics (coherence, correlation, Q(τ)) and plotting helpers |
+| `experiments/` | Ramsey, Δτ interference, decoherence, TDF vs OU **unified-law** + **robust** stats |
+| `analysis/` | Metrics (coherence, correlation, Q(τ)), **unified_law_metrics** / **unified_law_stats** |
 | `config/` | Shared simulation parameters |
 | `notebooks/` | Exploratory workflows |
 | `docs/` | **Project narrative & reproducible pipeline** (start with [`docs/PROJECT_OVERVIEW.md`](docs/PROJECT_OVERVIEW.md)) |
@@ -33,7 +33,7 @@ pip install -r requirements.txt
 
 ## Status
 
-Active experiments: two-qubit τ extraction, manifold / kernel / spectrum / χ-geometry analysis, TDF vs colored-noise discrimination (see docs).
+Active experiments: two-qubit τ extraction, manifold / kernel / spectrum / χ-geometry analysis, TDF vs colored-noise discrimination, and **TDF vs OU** comparisons on a **multi-relation unified-law** score with optional **multi-seed bootstrap / permutation** robustness ([`docs/REPRO.md`](docs/REPRO.md)).
 
 ## License
 

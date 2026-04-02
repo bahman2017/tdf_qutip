@@ -49,6 +49,15 @@ CAPTIONS: dict[str, str] = {
     "tdf_vs_noise_coupling_tdf.png": "Cross-metric Pearson heatmap (TDF sweep).",
     "tdf_vs_noise_coupling_ou_colored.png": "Coupling heatmap (OU sweep).",
     "tdf_vs_noise_coupling_pink.png": "Coupling heatmap (pink sweep).",
+    "tdf_vs_ou_robust_bootstrap_violin.png": "Bootstrap distribution of unified-law score (TDF vs OU, first seed).",
+    "tdf_vs_ou_robust_delta_hist.png": "Histogram of Δ unified_score (TDF−OU) across seeds.",
+    "tdf_vs_ou_robust_permutation.png": "Permutation null vs observed unified-law score (TDF and OU).",
+    "tdf_vs_ou_robust_window_sensitivity.png": "Unified-law scores vs number of time windows (sensitivity).",
+    "tdf_vs_ou_unified_law_relations_tdf.png": "Unified-law polynomial fits (TDF sweep).",
+    "tdf_vs_ou_unified_law_relations_ou.png": "Unified-law polynomial fits (OU sweep).",
+    "tdf_vs_ou_unified_law_stability_tdf.png": "Coefficient stability across windows (TDF).",
+    "tdf_vs_ou_unified_law_stability_ou.png": "Coefficient stability across windows (OU).",
+    "tdf_vs_ou_unified_law_scores.png": "Unified-law score comparison TDF vs OU (single run).",
 }
 
 

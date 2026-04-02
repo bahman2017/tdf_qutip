@@ -103,6 +103,28 @@ Each step lists **purpose**, **code**, **data flow**, and **typical figures** un
 
 ---
 
+### 10. TDF vs OU unified laws
+
+| | |
+|---|---|
+| **Purpose** | Same generator sweep as the discrimination experiment, but score **consistency of polynomial relations** across observables (unified-law metric in [`analysis/unified_law_metrics.py`](../analysis/unified_law_metrics.py)). |
+| **Module** | [`experiments/tdf_vs_ou_unified_law.py`](../experiments/tdf_vs_ou_unified_law.py) — `run_tdf_vs_ou_unified_law` |
+| **Input → output** | Lindblad-style sweeps for TDF (`τ_c`) and OU (correlation time) → sweep tables, per-relation fits, scalar **unified_score**. |
+| **Figures / data** | `tdf_vs_ou_unified_law_relations_*.png`, `tdf_vs_ou_unified_law_stability_*.png`, `tdf_vs_ou_unified_law_scores.png`, `tdf_vs_ou_unified_law_sweep_tdf.csv`, `tdf_vs_ou_unified_law_sweep_ou.csv` |
+
+---
+
+### 11. Unified-law robustness (statistics)
+
+| | |
+|---|---|
+| **Purpose** | Make the TDF vs OU unified-law comparison **defensible across seeds**: bootstrap CIs on the score, permutation p-values (shuffled relation targets), sensitivity to `n_windows` and sweep length, optional train/test RMSE. |
+| **Modules** | [`experiments/tdf_vs_ou_unified_law_robust.py`](../experiments/tdf_vs_ou_unified_law_robust.py); helpers in [`analysis/unified_law_stats.py`](../analysis/unified_law_stats.py) |
+| **Input → output** | Repeated `collect_unified_law_sweeps` with different seeds / grids → CSV summaries + diagnostic plots. |
+| **Figures / data** | `tdf_vs_ou_robust_delta_hist.png`, `tdf_vs_ou_robust_bootstrap_violin.png`, `tdf_vs_ou_robust_permutation.png`, `tdf_vs_ou_robust_window_sensitivity.png`; `tdf_vs_ou_unified_law_seed_scores.csv`, `tdf_vs_ou_unified_law_bootstrap.csv`, `tdf_vs_ou_unified_law_permutation.csv`, `tdf_vs_ou_unified_law_robust_summary.csv` |
+
+---
+
 ### Orchestration
 
 Shared step runners live in [`scripts/pipeline_demo.py`](../scripts/pipeline_demo.py) (used by `python -m …` entry points and optional `--all` run). See [`REPRO.md`](REPRO.md).

@@ -34,6 +34,8 @@ This project explores a contrasting picture: a **single phase field** τ(t) such
 - **Hidden spectrum:** map modes to effective λ_eff; compact-tower-style checks (`analysis/tau_hidden_spectrum.py`).
 - **χ-geometry hypotheses:** flat / offset / warped compact-style fits (`analysis/tau_chi_geometry.py`).
 - **Discrimination:** TDF vs OU and pink noise on the same `G`, joint cross-observable coupling score (`experiments/tdf_vs_colored_noise.py`).
+- **Unified-law comparison (TDF vs OU):** same sweeps, but a **multi-relation** score that rewards consistent polynomial structure across observables (`analysis/unified_law_metrics.py`, `experiments/tdf_vs_ou_unified_law.py`). This is a **different scalar** from the coupling score above.
+- **Robust statistics:** multi-seed replication, bootstrap CIs, permutation nulls, and window/grid sensitivity (`analysis/unified_law_stats.py`, `experiments/tdf_vs_ou_unified_law_robust.py`). The robust script applies a **strict** rule before claiming TDF is “robustly better” (positive mean Δscore with CI above zero, high win rate, small median permutation p-value, stability across settings).
 
 ---
 
@@ -45,6 +47,7 @@ This project explores a contrasting picture: a **single phase field** τ(t) such
 * **Effective spectrum:** a **small** soft-scale mode plus **larger** oscillatory ω²-like scales in the table produced by the hidden-spectrum step.
 * **χ-geometry:** with only **two** oscillatory tower points, the **three-parameter “warped” fit is disabled**; **offset-compact** (λ₀ + A n²) often wins over **flat** A n² on the demo settings.
 * **Colored-noise discrimination:** the **joint coupling score** does **not** consistently single out TDF over OU/pink on the default sweep—**not decisive** as implemented.
+* **Unified-law metric:** on the default robust battery, TDF can score **higher** than OU with **seed-level** and **resampling** support; claims still depend on sweep design, physics choices, and the printed robustness checklist (see [`RESULTS_SUMMARY.md`](RESULTS_SUMMARY.md), [`REPRO.md`](REPRO.md)).
 
 ---
 

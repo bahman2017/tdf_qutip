@@ -37,3 +37,31 @@ PYTHONPATH=. python3 scripts/generate_docs_index.py
 * [`tau_manifold_embedding.png`](../outputs/tau_manifold_embedding.png) — 2D PCA embedding of τ trajectories.
 * [`tau_manifold_param_space.png`](../outputs/tau_manifold_param_space.png) — Low-loss runs in parameter PCA space.
 * [`tau_manifold_tau_overlay.png`](../outputs/tau_manifold_tau_overlay.png) — τ(t) ensemble on degeneracy manifold.
+
+---
+
+### TDF vs OU unified law and robust statistics
+
+Produced by [`experiments/tdf_vs_ou_unified_law.py`](../experiments/tdf_vs_ou_unified_law.py) and [`experiments/tdf_vs_ou_unified_law_robust.py`](../experiments/tdf_vs_ou_unified_law_robust.py) (see [`REPRO.md`](REPRO.md)). After a run, refresh the full PNG list with `PYTHONPATH=. python3 scripts/generate_docs_index.py`.
+
+**Single-run unified law**
+
+* [`tdf_vs_ou_unified_law_relations_tdf.png`](../outputs/tdf_vs_ou_unified_law_relations_tdf.png) — Polynomial relations across sweep points (TDF).
+* [`tdf_vs_ou_unified_law_relations_ou.png`](../outputs/tdf_vs_ou_unified_law_relations_ou.png) — Same for OU (correlation-time sweep).
+* [`tdf_vs_ou_unified_law_stability_tdf.png`](../outputs/tdf_vs_ou_unified_law_stability_tdf.png) — Fit coefficient stability vs window count (TDF).
+* [`tdf_vs_ou_unified_law_stability_ou.png`](../outputs/tdf_vs_ou_unified_law_stability_ou.png) — Same (OU).
+* [`tdf_vs_ou_unified_law_scores.png`](../outputs/tdf_vs_ou_unified_law_scores.png) — Scalar unified-law scores: TDF vs OU.
+
+**Robust battery (multi-seed, bootstrap, permutation)**
+
+* [`tdf_vs_ou_robust_delta_hist.png`](../outputs/tdf_vs_ou_robust_delta_hist.png) — Distribution of Δscore = score_TDF − score_OU over seeds.
+* [`tdf_vs_ou_robust_bootstrap_violin.png`](../outputs/tdf_vs_ou_robust_bootstrap_violin.png) — Bootstrap score distributions and 95% CIs (illustrative seed).
+* [`tdf_vs_ou_robust_permutation.png`](../outputs/tdf_vs_ou_robust_permutation.png) — Permutation nulls vs observed unified score.
+* [`tdf_vs_ou_robust_window_sensitivity.png`](../outputs/tdf_vs_ou_robust_window_sensitivity.png) — Scores vs `n_windows` and sweep grid choice.
+
+**Tables (CSV, under [`outputs/`](../outputs/))**
+
+* `tdf_vs_ou_unified_law_sweep_tdf.csv`, `tdf_vs_ou_unified_law_sweep_ou.csv` — sweep rows used by the analyzer.
+* `tdf_vs_ou_unified_law_seed_scores.csv` — per seed / model: unified score, mean RMSE, mean coef CV, train/test RMSE.
+* `tdf_vs_ou_unified_law_bootstrap.csv`, `tdf_vs_ou_unified_law_permutation.csv` — resampling details per seed.
+* `tdf_vs_ou_unified_law_robust_summary.csv` — headline statistics and sensitivity tables.

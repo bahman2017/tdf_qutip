@@ -24,6 +24,8 @@ python3 scripts/pipeline_demo.py --all
 
 **Outputs:** figures and CSVs under [`outputs/`](../outputs/) (may be gitignored).
 
+`--all` does **not** run the TDF vs OU **unified-law** experiments; invoke those scripts separately (below).
+
 ---
 
 ## Step-by-step (`python -m` entry points)
@@ -44,6 +46,23 @@ python -m analysis.tau_hidden_spectrum
 python -m analysis.tau_chi_geometry
 python -m experiments.tdf_vs_colored_noise
 ```
+
+### TDF vs OU (unified-law score, optional)
+
+Single-run comparison on the **multi-relation unified-law** metric (not the joint coupling score):
+
+```bash
+python3 experiments/tdf_vs_ou_unified_law.py
+```
+
+**Statistical robustness** (multi-seed, bootstrap on sweep rows, permutation nulls, window/grid sensitivity, train/test RMSE). Default settings are heavy (many sweeps × resamples); use `--fast` for a shorter smoke test:
+
+```bash
+python3 experiments/tdf_vs_ou_unified_law_robust.py --fast
+python3 experiments/tdf_vs_ou_unified_law_robust.py   # full defaults: e.g. 20 seeds, larger B
+```
+
+**Outputs:** figures `tdf_vs_ou_unified_law_*.png`, `tdf_vs_ou_robust_*.png`, and CSVs `tdf_vs_ou_unified_law_*.csv` under [`outputs/`](../outputs/). The script prints mean Δscore, 95% CI, win rate, permutation p-values, and a strict **“robustly better”** verdict when all criteria pass.
 
 Single named step without re-running the whole chain from your own session:
 
@@ -85,4 +104,4 @@ Updates [`FIGURES_INDEX.md`](FIGURES_INDEX.md).
 | [`PROJECT_OVERVIEW.md`](PROJECT_OVERVIEW.md) | Narrative |
 | [`PIPELINE_STEPS.md`](PIPELINE_STEPS.md) | Step table |
 | [`RESULTS_SUMMARY.md`](RESULTS_SUMMARY.md) | Plots + takeaways |
-| [`FIGURES_INDEX.md`](FIGURES_INDEX.md) | PNG list |
+| [`FIGURES_INDEX.md`](FIGURES_INDEX.md) | PNG list (includes unified-law / robust figures when generated) |
