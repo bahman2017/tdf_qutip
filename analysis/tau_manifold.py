@@ -295,3 +295,9 @@ def interpret_manifold(metrics: dict[str, Any]) -> str:
     if d_p <= 1 and d_t <= 1:
         return "τ nearly unique"
     return "τ lies on a degenerate manifold"
+
+
+if __name__ == "__main__":
+    from scripts.pipeline_demo import step_manifold
+
+    step_manifold(None)

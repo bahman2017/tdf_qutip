@@ -426,3 +426,9 @@ def interpret_mode_field_fits(result: dict[str, Any]) -> str:
 #     n_modes=3,
 #     output_dir="outputs",
 # )
+
+
+if __name__ == "__main__":
+    from scripts.pipeline_demo import step_mode_field_fit
+
+    step_mode_field_fit(None)

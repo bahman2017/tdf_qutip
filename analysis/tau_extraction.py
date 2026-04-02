@@ -366,3 +366,9 @@ def fit_tau_from_correlations(
         print(f"Final weighted loss: {fun:.6g}")
 
     return out
+
+
+if __name__ == "__main__":
+    from scripts.pipeline_demo import step_tau_extraction
+
+    step_tau_extraction(None)

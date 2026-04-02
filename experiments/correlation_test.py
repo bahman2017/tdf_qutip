@@ -229,3 +229,9 @@ def run_two_qubit_correlation_experiment(
         "figure_paths": paths,
         "output_dir": output_dir,
     }
+
+
+if __name__ == "__main__":
+    from scripts.pipeline_demo import step_correlation
+
+    step_correlation()

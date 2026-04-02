@@ -11,6 +11,8 @@ QuTiP-based research code for simulating quantum systems with **custom noise mod
 | `analysis/` | Metrics (coherence, correlation, Q(τ)) and plotting helpers |
 | `config/` | Shared simulation parameters |
 | `notebooks/` | Exploratory workflows |
+| `docs/` | **Project narrative & reproducible pipeline** (start with [`docs/PROJECT_OVERVIEW.md`](docs/PROJECT_OVERVIEW.md)) |
+| `scripts/` | `pipeline_demo.py` (repro steps), `generate_docs_index.py` |
 
 ## Setup
 
@@ -21,9 +23,17 @@ source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
+## Documentation (pipeline narrative)
+
+- **[`docs/PROJECT_OVERVIEW.md`](docs/PROJECT_OVERVIEW.md)** — motivation, what was built, findings, limits  
+- **[`docs/PIPELINE_STEPS.md`](docs/PIPELINE_STEPS.md)** — step → module → outputs  
+- **[`docs/RESULTS_SUMMARY.md`](docs/RESULTS_SUMMARY.md)** — key figures + captions  
+- **[`docs/REPRO.md`](docs/REPRO.md)** — exact commands  
+- **[`docs/FIGURES_INDEX.md`](docs/FIGURES_INDEX.md)** — all PNGs under `outputs/` (run `python3 scripts/generate_docs_index.py` to refresh)
+
 ## Status
 
-Stubs only: implement physics and numerics in each module as the project matures.
+Active experiments: two-qubit τ extraction, manifold / kernel / spectrum / χ-geometry analysis, TDF vs colored-noise discrimination (see docs).
 
 ## License
 

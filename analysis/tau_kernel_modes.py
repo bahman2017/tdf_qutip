@@ -283,3 +283,9 @@ def run_tau_kernel_mode_analysis(
 
 # Alias matching the design doc naming
 extract_kernel_modes = extract_kernel_modes_from_manifold
+
+
+if __name__ == "__main__":
+    from scripts.pipeline_demo import step_kernel_modes
+
+    step_kernel_modes(None)

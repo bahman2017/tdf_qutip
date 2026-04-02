@@ -489,3 +489,9 @@ def analyze_chi_geometry(
 # Example (not executed):
 # from analysis.tau_chi_geometry import analyze_chi_geometry
 # out = analyze_chi_geometry(spectrum_result, output_dir="outputs")
+
+
+if __name__ == "__main__":
+    from scripts.pipeline_demo import step_chi_geometry
+
+    step_chi_geometry(None)

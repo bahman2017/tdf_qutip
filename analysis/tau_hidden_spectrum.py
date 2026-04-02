@@ -333,3 +333,9 @@ def extract_hidden_spectrum(
 # Example (not executed):
 # from analysis.tau_hidden_spectrum import extract_hidden_spectrum
 # out = extract_hidden_spectrum(field_fit_result, output_dir="outputs")
+
+
+if __name__ == "__main__":
+    from scripts.pipeline_demo import step_hidden_spectrum
+
+    step_hidden_spectrum(None)

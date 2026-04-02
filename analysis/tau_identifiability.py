@@ -209,3 +209,9 @@ def multi_start_tau_fit(
     print(f"  → {summary['interpretation']}")
 
     return summary
+
+
+if __name__ == "__main__":
+    from scripts.pipeline_demo import step_identifiability
+
+    step_identifiability(None)
