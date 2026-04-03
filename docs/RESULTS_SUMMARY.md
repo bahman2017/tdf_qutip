@@ -93,6 +93,28 @@ After `experiments/tdf_vs_ou_unified_law_robust.py`:
 
 ---
 
+## IBM / Aer τ embeddings (Qiskit)
+
+**Sweep** (`experiments/ibm_tau_hardware_ready.py`):
+
+* **`ibm_tau_hardware_comparison.png`** (and `…_ibm.png` from `--pipeline`) — CHSH $S$ and fidelity proxy vs circuit depth for baseline and selected τ models.  
+* **`ibm_tau_results.csv`** — Per row: `n_steps`, `model`, `chsh`, `fidelity`, `zz`, `xx`, `yy`.
+
+**Observed:** Aer traces are near ideal; IBM hardware shows lower CHSH and noisier Pauli moments. **Interpretation:** Use as a **hardware probe** of which τ embedding survives noise; not the same object as the QuTiP Lindblad pipeline above.
+
+**Coupling block (console):** When the run includes both **baseline** and **tau_symmetric**, the script prints a **3×3** correlation matrix of **rolling-mean (w=3)** of **finite-difference** sequences for CHSH, ⟨XX⟩, ⟨YY⟩ across depth, a scalar coupling score, and a line comparing τ vs baseline (see script docstring).
+
+**Repeated symmetric stats** (`experiments/ibm_tau_symmetric_stats.py`):
+
+* **`ibm_tau_symmetric_stats.png`** — Mean **ΔCHSH** (τ_symmetric − baseline) vs depth with **95% CI** error bars (normal approximation).  
+* **`ibm_tau_symmetric_stats.csv`** — One row per successful run; **`ibm_tau_symmetric_stats_by_depth.csv`** — Aggregated **mean ΔCHSH**, **CI**, **win_rate** per depth.
+
+**Observed:** Numbers depend on backend, device, and shot noise. **Interpretation:** The printed **“Statistically consistent τ advantage”** line applies only when **every** depth with $n\ge2$ runs passes strict built-in gates (positive mean, CI lower bound $>0$, win rate $\ge 0.7$).
+
+Commands: [`REPRO.md`](REPRO.md) § IBM Quantum / Aer.
+
+---
+
 ## Takeaways
 
 * **Observed:** Correlation data do not pin down a unique τ; a structured **low-loss manifold** appears in multi-start fits.  
@@ -101,6 +123,7 @@ After `experiments/tdf_vs_ou_unified_law_robust.py`:
 * **Observed:** Offset-style χ fits can beat flat n² on **sparse** tower data.  
 * **Observed:** The colored-noise baseline on the **same** generator remains **competitive** on the joint-coupling scalar—**stronger metrics or data** would be needed for a sharp claim.
 * **Observed:** The **unified-law** comparison uses a **different** scalar; the **robust** script adds seeds, bootstrap CIs, permutations, and sensitivity—read the printed checklist and CSVs before generalizing.
+* **Observed:** **Qiskit** τ sweeps on Aer vs IBM separate **circuit-level** embeddings from the QuTiP analysis chain; use **`ibm_tau_symmetric_stats_by_depth.csv`** for aggregated ΔCHSH / CI / win rate after repeated runs.
 
 ---
 

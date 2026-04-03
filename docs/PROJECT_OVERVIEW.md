@@ -36,6 +36,7 @@ This project explores a contrasting picture: a **single phase field** τ(t) such
 - **Discrimination:** TDF vs OU and pink noise on the same `G`, joint cross-observable coupling score (`experiments/tdf_vs_colored_noise.py`).
 - **Unified-law comparison (TDF vs OU):** same sweeps, but a **multi-relation** score that rewards consistent polynomial structure across observables (`analysis/unified_law_metrics.py`, `experiments/tdf_vs_ou_unified_law.py`). This is a **different scalar** from the coupling score above.
 - **Robust statistics:** multi-seed replication, bootstrap CIs, permutation nulls, and window/grid sensitivity (`analysis/unified_law_stats.py`, `experiments/tdf_vs_ou_unified_law_robust.py`). The robust script applies a **strict** rule before claiming TDF is “robustly better” (positive mean Δscore with CI above zero, high win rate, small median permutation p-value, stability across settings).
+- **Qiskit τ on Aer / IBM:** depth-swept Bell circuits with τ-modulated layers vs a depth-matched baseline; CHSH, fidelity proxy, Pauli reads; optional cross-observable coupling diagnostic; separate script for **repeated τ_symmetric vs baseline** jobs with per-depth mean ΔCHSH, CI, and win rate (`experiments/ibm_tau_hardware_ready.py`, `experiments/ibm_tau_symmetric_stats.py`). This branch is **orthogonal** to the QuTiP Lindblad pipeline (see [`REPRO.md`](REPRO.md)).
 
 ---
 

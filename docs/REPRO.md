@@ -75,6 +75,55 @@ python3 scripts/pipeline_demo.py --step tau_extraction
 
 ---
 
+## IBM Quantum / Aer (τ hardware-ready)
+
+Uses **Qiskit** (not QuTiP). Install:
+
+```bash
+pip install -r requirements-qiskit.txt
+```
+
+Put your IBM token in `apikey.json` at the `tdf_qutip` root (see `apikey.example.json`; file is gitignored).
+
+**Main sweep** — baseline (depth-matched identity `RZ`) plus τ variants: `tau_naive`, `tau_symmetric`, `tau_zz`, `tau_zz_mix`. Same transpilation (`optimization_level=1`, Sabre layout/routing), CHSH and fidelity proxy, Pauli `zz`/`xx`/`yy` in CSV. Aer uses `backend.run`; IBM uses **SamplerV2**.
+
+```bash
+export PYTHONPATH=.
+# Aer (default)
+python3 experiments/ibm_tau_hardware_ready.py --backend aer --tau-mode all --n-steps-max 10 --shots 1024 --plot
+# IBM
+python3 experiments/ibm_tau_hardware_ready.py --backend ibm --tau-mode symmetric --n-steps-max 20 --shots 1024 --plot
+# Aer sanity then IBM (writes `ibm_tau_results.csv` then `ibm_tau_results_ibm.csv` if hardware succeeds)
+python3 experiments/ibm_tau_hardware_ready.py --pipeline --n-steps-max 8 --shots 1024 --plot
+```
+
+`--tau-mode` ∈ `{all, naive, symmetric, zz, zz_mix}`.
+
+**Multi-observable coupling (printed when both `baseline` and `tau_symmetric` are in the run):** correlation matrix of rolled mean of `diff(CHSH)`, `diff(⟨XX⟩)`, `diff(⟨YY⟩)` across depth (window size 3); coupling score = mean |off-diagonal|; verdict compares τ to baseline (see script docstring).
+
+**Repeated statistics (τ_symmetric only vs baseline):**
+
+```bash
+python3 experiments/ibm_tau_symmetric_stats.py --backend ibm --plot
+# Recompute per-depth mean ΔCHSH, 95% CI, win_rate from an existing raw CSV:
+python3 experiments/ibm_tau_symmetric_stats.py --analyze-csv outputs/ibm_tau_symmetric_stats.csv
+```
+
+**Outputs (under `outputs/`):**
+
+| File | Role |
+|------|------|
+| `ibm_tau_results.csv` | Per depth × model: `chsh`, `fidelity`, `zz`, `xx`, `yy` |
+| `ibm_tau_hardware_comparison.png` | CHSH + fidelity vs depth |
+| `ibm_tau_results_ibm.csv`, `ibm_tau_hardware_comparison_ibm.png` | Pipeline IBM step (if run) |
+| `ibm_tau_symmetric_stats.csv` | Raw rows: `depth`, `run_id`, `delta_chsh`, `delta_fidelity` |
+| `ibm_tau_symmetric_stats_by_depth.csv` | Per depth: `mean_delta_chsh`, `ci95_lo`/`hi`, `win_rate`, `n_runs` |
+| `ibm_tau_symmetric_stats.png` | Mean ΔCHSH vs depth with CI error bars |
+
+Use `--aer-fallback` on the stats script if IBM init fails.
+
+---
+
 ## Refresh the figures index
 
 After generating PNGs:
@@ -104,4 +153,4 @@ Updates [`FIGURES_INDEX.md`](FIGURES_INDEX.md).
 | [`PROJECT_OVERVIEW.md`](PROJECT_OVERVIEW.md) | Narrative |
 | [`PIPELINE_STEPS.md`](PIPELINE_STEPS.md) | Step table |
 | [`RESULTS_SUMMARY.md`](RESULTS_SUMMARY.md) | Plots + takeaways |
-| [`FIGURES_INDEX.md`](FIGURES_INDEX.md) | PNG list (includes unified-law / robust figures when generated) |
+| [`FIGURES_INDEX.md`](FIGURES_INDEX.md) | PNG list (includes unified-law / robust / IBM τ figures when generated) |

@@ -7,6 +7,8 @@ build/
 .venv/
 venv/
 .env
+# IBM Quantum / Qiskit — never commit (see apikey.example.json in repo root)
+apikey.json
 .DS_Store
 .pytest_cache/
 .mypy_cache/

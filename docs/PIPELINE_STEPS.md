@@ -125,6 +125,27 @@ Each step lists **purpose**, **code**, **data flow**, and **typical figures** un
 
 ---
 
+### 12. IBM / Aer τ hardware-ready (Qiskit)
+
+| | |
+|---|---|
+| **Purpose** | Run **real or simulated** two-qubit Bell + τ-modulated depth layers; measure CHSH, fidelity proxy, ⟨ZZ⟩,⟨XX⟩,⟨YY⟩; compare **baseline** (matched-depth `RZ(0)⊗RZ(0)`) to **τ_naive**, **τ_symmetric**, **τ_zz**, **τ_zz_mix**. Optional **multi-observable coupling** summary when baseline + symmetric both present. |
+| **Module** | [`experiments/ibm_tau_hardware_ready.py`](../experiments/ibm_tau_hardware_ready.py) — `run_sweep`, `run_experiment_once` (single depth, baseline + symmetric only) |
+| **Input → output** | Backend (Aer or IBM Runtime), `n_steps` list, `--tau-mode` → CSV + PNG; IBM path uses **SamplerV2** + `apikey.json`. |
+| **Figures / data** | `ibm_tau_results.csv`, `ibm_tau_hardware_comparison.png`; pipeline adds `ibm_tau_results_ibm.csv`, `ibm_tau_hardware_comparison_ibm.png` |
+
+**Repeated τ_symmetric statistics** (many jobs per depth; significance-style summary):
+
+| | |
+|---|---|
+| **Purpose** | Estimate distribution of **ΔCHSH** and **Δfidelity** (τ_symmetric − baseline) per depth; mean, normal 95% CI, win rate; optional plot. |
+| **Module** | [`experiments/ibm_tau_symmetric_stats.py`](../experiments/ibm_tau_symmetric_stats.py) |
+| **Figures / data** | `ibm_tau_symmetric_stats.csv`, `ibm_tau_symmetric_stats_by_depth.csv`, `ibm_tau_symmetric_stats.png`; `--analyze-csv` refreshes the by-depth CSV from raw rows only. |
+
+See [`REPRO.md`](REPRO.md) for exact commands and Qiskit install.
+
+---
+
 ### Orchestration
 
 Shared step runners live in [`scripts/pipeline_demo.py`](../scripts/pipeline_demo.py) (used by `python -m …` entry points and optional `--all` run). See [`REPRO.md`](REPRO.md).

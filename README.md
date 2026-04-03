@@ -7,7 +7,7 @@ QuTiP-based research code for simulating quantum systems with **custom noise mod
 | Path | Role |
 |------|------|
 | `core/` | Hamiltonians, τ-model, noise channels, time evolution |
-| `experiments/` | Ramsey, Δτ interference, decoherence, TDF vs OU **unified-law** + **robust** stats |
+| `experiments/` | Ramsey, Δτ interference, decoherence, TDF vs OU **unified-law** + **robust** stats; **Qiskit** τ sweep on Aer / IBM (`ibm_tau_hardware_ready.py`, `ibm_tau_symmetric_stats.py`) |
 | `analysis/` | Metrics (coherence, correlation, Q(τ)), **unified_law_metrics** / **unified_law_stats** |
 | `config/` | Shared simulation parameters |
 | `notebooks/` | Exploratory workflows |
@@ -23,6 +23,8 @@ source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
+**Optional (IBM Quantum / Aer τ experiments):** `pip install -r requirements-qiskit.txt`, then see [`docs/REPRO.md`](docs/REPRO.md) § IBM τ hardware-ready.
+
 ## Documentation (pipeline narrative)
 
 - **[`docs/PROJECT_OVERVIEW.md`](docs/PROJECT_OVERVIEW.md)** — motivation, what was built, findings, limits  
@@ -33,7 +35,7 @@ pip install -r requirements.txt
 
 ## Status
 
-Active experiments: two-qubit τ extraction, manifold / kernel / spectrum / χ-geometry analysis, TDF vs colored-noise discrimination, and **TDF vs OU** comparisons on a **multi-relation unified-law** score with optional **multi-seed bootstrap / permutation** robustness ([`docs/REPRO.md`](docs/REPRO.md)).
+Active experiments: two-qubit τ extraction, manifold / kernel / spectrum / χ-geometry analysis, TDF vs colored-noise discrimination, **TDF vs OU** on a **multi-relation unified-law** score with optional **multi-seed bootstrap / permutation** robustness, and **hardware-style** τ embeddings on **Aer / IBM Quantum** (CHSH + fidelity proxy, optional multi-observable coupling summary, repeated **τ_symmetric** statistics) ([`docs/REPRO.md`](docs/REPRO.md), [`docs/PIPELINE_STEPS.md`](docs/PIPELINE_STEPS.md) §12).
 
 ## License
 

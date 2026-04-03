@@ -65,3 +65,24 @@ Produced by [`experiments/tdf_vs_ou_unified_law.py`](../experiments/tdf_vs_ou_un
 * `tdf_vs_ou_unified_law_seed_scores.csv` — per seed / model: unified score, mean RMSE, mean coef CV, train/test RMSE.
 * `tdf_vs_ou_unified_law_bootstrap.csv`, `tdf_vs_ou_unified_law_permutation.csv` — resampling details per seed.
 * `tdf_vs_ou_unified_law_robust_summary.csv` — headline statistics and sensitivity tables.
+
+---
+
+### IBM τ (Qiskit, Aer / hardware)
+
+From [`experiments/ibm_tau_hardware_ready.py`](../experiments/ibm_tau_hardware_ready.py) and [`experiments/ibm_tau_symmetric_stats.py`](../experiments/ibm_tau_symmetric_stats.py) (see [`REPRO.md`](REPRO.md)).
+
+**Sweep / pipeline**
+
+* [`ibm_tau_hardware_comparison.png`](../outputs/ibm_tau_hardware_comparison.png) — CHSH and fidelity proxy vs depth (baseline + τ models).
+* [`ibm_tau_hardware_comparison_ibm.png`](../outputs/ibm_tau_hardware_comparison_ibm.png) — Same after `--pipeline` hardware step (if generated).
+
+**Statistics (τ_symmetric repeats)**
+
+* [`ibm_tau_symmetric_stats.png`](../outputs/ibm_tau_symmetric_stats.png) — Mean ΔCHSH vs depth ± 95% CI.
+
+**Tables (CSV)**
+
+* `ibm_tau_results.csv`, `ibm_tau_results_ibm.csv` — per depth × model (includes `zz`, `xx`, `yy` in current schema).
+* `ibm_tau_symmetric_stats.csv` — raw per-run ΔCHSH / Δfidelity.
+* `ibm_tau_symmetric_stats_by_depth.csv` — per-depth mean ΔCHSH, CI, win rate.
