@@ -124,6 +124,35 @@ Use `--aer-fallback` on the stats script if IBM init fails.
 
 ---
 
+## TDF ensemble phase laws (QuTiP, Wiener τ)
+
+Classical **τ** paths (same two-leg Wiener construction: independent / shared / partial correlation) drive **QuTiP** unitary phase noise; outputs are figures and CSVs under [`outputs/`](../outputs/). Run from `tdf_qutip` with `PYTHONPATH=.` (or `python -m` as below).
+
+```bash
+export PYTHONPATH=.
+python -m experiments.tdf_phase_decoherence_test
+python -m experiments.tdf_vs_standard_decoherence
+python -m experiments.tdf_open_system_validation
+python -m experiments.tdf_entanglement_decay
+python -m experiments.tdf_ghz_decay
+python -m experiments.tdf_chsh_decay
+```
+
+**Rough runtime:** about **1–3 minutes** each for the larger ensemble scripts (`tdf_open_system_validation`, `tdf_chsh_decay`); others are typically faster.
+
+| Module | Main outputs (prefix `outputs/`) |
+|--------|----------------------------------|
+| `tdf_phase_decoherence_test` | `tdf_phase_decoherence_*.png`, `tdf_phase_decoherence_metrics.csv`, `tdf_phase_decoherence_data.csv` |
+| `tdf_vs_standard_decoherence` | `tdf_vs_ou_*.png`, matched-OU variants, metrics CSVs (see script docstring) |
+| `tdf_open_system_validation` | `tdf_open_system_validation_*.png`, `tdf_open_system_validation_*.csv`; Lindblad: `tdf_lindblad_*.png`, `tdf_lindblad_metrics.csv` |
+| `tdf_entanglement_decay` | `tdf_entanglement_decay.png`, `tdf_entanglement_compare.png`, `tdf_entanglement_metrics.csv` |
+| `tdf_ghz_decay` | `tdf_ghz_decay.png`, `tdf_ghz_compare.png`, `tdf_ghz_metrics.csv` |
+| `tdf_chsh_decay` | `tdf_chsh_*.png` (decay, compare, components, reconstructed, multiphase, **cf** compare), `tdf_chsh_*.csv` (metrics, components, **cf** metrics & components) |
+
+Details and figure roles: [`PIPELINE_STEPS.md`](PIPELINE_STEPS.md) §13, [`RESULTS_SUMMARY.md`](RESULTS_SUMMARY.md) § TDF ensemble phase laws.
+
+---
+
 ## Refresh the figures index
 
 After generating PNGs:
@@ -153,4 +182,4 @@ Updates [`FIGURES_INDEX.md`](FIGURES_INDEX.md).
 | [`PROJECT_OVERVIEW.md`](PROJECT_OVERVIEW.md) | Narrative |
 | [`PIPELINE_STEPS.md`](PIPELINE_STEPS.md) | Step table |
 | [`RESULTS_SUMMARY.md`](RESULTS_SUMMARY.md) | Plots + takeaways |
-| [`FIGURES_INDEX.md`](FIGURES_INDEX.md) | PNG list (includes unified-law / robust / IBM τ figures when generated) |
+| [`FIGURES_INDEX.md`](FIGURES_INDEX.md) | PNG list (includes unified-law / robust / IBM τ / **TDF ensemble** figures when generated) |

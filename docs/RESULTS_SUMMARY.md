@@ -115,6 +115,24 @@ Commands: [`REPRO.md`](REPRO.md) § IBM Quantum / Aer.
 
 ---
 
+## TDF ensemble phase laws (QuTiP)
+
+Run all modules in one block: [`REPRO.md`](REPRO.md) § TDF ensemble phase laws.
+
+* **`tdf_phase_decoherence_V.png` / `tdf_phase_decoherence_compare.png`** — Empirical `V(t) = |⟨e^{iΔτ}⟩|` vs `exp(-Var(Δτ)/2)` for cases A/B/C; residuals panel. **Interpretation:** checks the **Gaussian phase** ansatz on the toy scalar order parameter.
+
+* **`tdf_open_system_validation_coherence.png`** — Ensemble-averaged single-qubit coherence vs the same prediction. **`tdf_lindblad_compare.png`** — Total coherence with **Markovian dephasing** vs factorized **τ × environment** law (`e^{-Var/2} C_L`).
+
+* **`tdf_entanglement_decay.png` / `tdf_entanglement_compare.png`** — **Concurrence** of `ρ̄` for Bell + local τ noise. **Interpretation:** `Var(Δτ)` alone can miss **common-mode** decay; `exp(-Var(τ₁+τ₂)/2)` aligns better with `\|00⟩`–`\|11⟩` structure (see metrics CSV).
+
+* **`tdf_ghz_decay.png` / `tdf_ghz_compare.png`** — GHZ `\|ρ_{000,111}\|` (normalized) vs `exp(-Var(τ₁+τ₂+τ₃)/2)`.
+
+* **`tdf_chsh_cf_compare.png`** — Actual **CHSH S** vs **single-variance**, **multiphase-variance**, and **characteristic-function** reconstructed S. **`tdf_chsh_components.png`** — Per-correlator data vs single-variance component fits. **Interpretation:** variance-only scalings are weak for **S**; **`tdf_chsh_cf_metrics.csv`** compares `model_type` ∈ {`single_var`, `multiphase_var`, `characteristic_function`}; CF uses full empirical `⟨e^{iφ_{ij}}⟩` per τ combination (see experiment docstring).
+
+**Observed:** Defaults are seed-dependent; CHSH script prints a short verdict comparing the three S models.
+
+---
+
 ## Takeaways
 
 * **Observed:** Correlation data do not pin down a unique τ; a structured **low-loss manifold** appears in multi-start fits.  
@@ -124,6 +142,7 @@ Commands: [`REPRO.md`](REPRO.md) § IBM Quantum / Aer.
 * **Observed:** The colored-noise baseline on the **same** generator remains **competitive** on the joint-coupling scalar—**stronger metrics or data** would be needed for a sharp claim.
 * **Observed:** The **unified-law** comparison uses a **different** scalar; the **robust** script adds seeds, bootstrap CIs, permutations, and sensitivity—read the printed checklist and CSVs before generalizing.
 * **Observed:** **Qiskit** τ sweeps on Aer vs IBM separate **circuit-level** embeddings from the QuTiP analysis chain; use **`ibm_tau_symmetric_stats_by_depth.csv`** for aggregated ΔCHSH / CI / win rate after repeated runs.
+* **Observed:** **Ensemble τ** scripts validate **phase-variance** laws and **Lindblad × τ** factorization on minimal QuTiP models; **CHSH** highlights **nonlinearity** of S in `ρ̄` and the value of **characteristic-function** (full distribution) modeling over variance-only fits for correlator-based reconstruction.
 
 ---
 

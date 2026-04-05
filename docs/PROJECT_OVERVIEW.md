@@ -37,6 +37,7 @@ This project explores a contrasting picture: a **single phase field** τ(t) such
 - **Unified-law comparison (TDF vs OU):** same sweeps, but a **multi-relation** score that rewards consistent polynomial structure across observables (`analysis/unified_law_metrics.py`, `experiments/tdf_vs_ou_unified_law.py`). This is a **different scalar** from the coupling score above.
 - **Robust statistics:** multi-seed replication, bootstrap CIs, permutation nulls, and window/grid sensitivity (`analysis/unified_law_stats.py`, `experiments/tdf_vs_ou_unified_law_robust.py`). The robust script applies a **strict** rule before claiming TDF is “robustly better” (positive mean Δscore with CI above zero, high win rate, small median permutation p-value, stability across settings).
 - **Qiskit τ on Aer / IBM:** depth-swept Bell circuits with τ-modulated layers vs a depth-matched baseline; CHSH, fidelity proxy, Pauli reads; optional cross-observable coupling diagnostic; separate script for **repeated τ_symmetric vs baseline** jobs with per-depth mean ΔCHSH, CI, and win rate (`experiments/ibm_tau_hardware_ready.py`, `experiments/ibm_tau_symmetric_stats.py`). This branch is **orthogonal** to the QuTiP Lindblad pipeline (see [`REPRO.md`](REPRO.md)).
+- **Ensemble TDF phase laws (QuTiP):** Wiener-driven **τ₁, τ₂** (and three-qubit **τ₃**) with independent / shared / partially correlated legs; tests **Gaussian variance** laws and extensions on **coherence**, **open system + Lindblad dephasing**, **concurrence**, **GHZ** off-diagonal, and **CHSH** (including **multiphase variance** per correlator and **characteristic-function** `Re ⟨e^{iφ}⟩` fits). See [`PIPELINE_STEPS.md`](PIPELINE_STEPS.md) §13 and [`REPRO.md`](REPRO.md).
 
 ---
 
@@ -49,6 +50,7 @@ This project explores a contrasting picture: a **single phase field** τ(t) such
 * **χ-geometry:** with only **two** oscillatory tower points, the **three-parameter “warped” fit is disabled**; **offset-compact** (λ₀ + A n²) often wins over **flat** A n² on the demo settings.
 * **Colored-noise discrimination:** the **joint coupling score** does **not** consistently single out TDF over OU/pink on the default sweep—**not decisive** as implemented.
 * **Unified-law metric:** on the default robust battery, TDF can score **higher** than OU with **seed-level** and **resampling** support; claims still depend on sweep design, physics choices, and the printed robustness checklist (see [`RESULTS_SUMMARY.md`](RESULTS_SUMMARY.md), [`REPRO.md`](REPRO.md)).
+* **Ensemble phase laws:** for local `σ_z` τ-noise on standard states, **scalar** coherence often tracks `exp(-Var/2)`; **multi-qubit** coherences may need **Var(∑τ)** (not only `Var(Δτ)`). **CHSH S** is a **nonlinear** functional of `ρ̄`, so a single variance scaling is a poor global fit; **empirical characteristic functions** of linear τ-combinations can match **component** expectations and reconstructed **S** much more closely than variance-only models when `ω≠0` (mean phase) or distributions depart from Gaussian-second-moment equivalence.
 
 ---
 

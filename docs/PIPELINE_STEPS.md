@@ -146,6 +146,48 @@ See [`REPRO.md`](REPRO.md) for exact commands and Qiskit install.
 
 ---
 
+### 13. TDF ensemble phase laws (Wiener τ, QuTiP)
+
+Shared classical **τ** construction: **Case A** independent Wieners on two legs, **B** shared Wiener, **C** partial correlation (same as `simulate_delta_tau_cases` / `simulate_tau1_tau2_cases` in code). Used to test **Gaussian phase-variance** predictions vs **ensemble-averaged** quantum observables. Commands: [`REPRO.md`](REPRO.md) § TDF ensemble phase laws.
+
+| | |
+|---|---|
+| **Purpose** | Scalar phase coherence `V = \|⟨e^{iΔτ}⟩\|` vs `exp(-Var(Δτ)/2)`; optional `exp(-α t)` fit. |
+| **Module** | [`experiments/tdf_phase_decoherence_test.py`](../experiments/tdf_phase_decoherence_test.py) |
+| **Figures / data** | `tdf_phase_decoherence_V.png`, `tdf_phase_decoherence_compare.png`, `tdf_phase_decoherence_residuals.png`; `tdf_phase_decoherence_data.csv`, `tdf_phase_decoherence_metrics.csv` |
+
+| | |
+|---|---|
+| **Purpose** | TDF (Wiener Δτ) vs **OU** phase noise; optional **parameter matching** and deviation scores. |
+| **Module** | [`experiments/tdf_vs_standard_decoherence.py`](../experiments/tdf_vs_standard_decoherence.py) |
+| **Figures / data** | `tdf_vs_ou_*.png`, `tdf_vs_ou_matched_*.png`, matching metrics CSVs (see script) |
+
+| | |
+|---|---|
+| **Purpose** | Single-qubit `\|+⟩`, ensemble coherence vs `exp(-Var(Δτ)/2)`; **Lindblad** `L=\sqrtγ σ_z` + TDF: `C_tot` vs `e^{-Var/2} C_L` and vs `e^{-Var/2-2γt}`. |
+| **Module** | [`experiments/tdf_open_system_validation.py`](../experiments/tdf_open_system_validation.py) |
+| **Figures / data** | `tdf_open_system_validation_*.png`, `tdf_open_system_validation_*.csv`; `tdf_lindblad_validation.png`, `tdf_lindblad_compare.png`, `tdf_lindblad_metrics.csv` |
+
+| | |
+|---|---|
+| **Purpose** | Two-qubit Bell: ensemble **concurrence** vs `exp(-Var(Δτ)/2)` and vs `exp(-Var(τ₁+τ₂)/2)` (common-mode phase for `\|00⟩`–`\|11⟩` coherence). |
+| **Module** | [`experiments/tdf_entanglement_decay.py`](../experiments/tdf_entanglement_decay.py) |
+| **Figures / data** | `tdf_entanglement_decay.png`, `tdf_entanglement_compare.png`, `tdf_entanglement_metrics.csv` |
+
+| | |
+|---|---|
+| **Purpose** | Three-qubit GHZ: normalized `\|ρ_{000,111}\|` vs `exp(-Var(τ₁+τ₂+τ₃)/2)` (three independent / shared / partially correlated legs). |
+| **Module** | [`experiments/tdf_ghz_decay.py`](../experiments/tdf_ghz_decay.py) |
+| **Figures / data** | `tdf_ghz_decay.png`, `tdf_ghz_compare.png`, `tdf_ghz_metrics.csv` |
+
+| | |
+|---|---|
+| **Purpose** | Bell + local `σ_z` noise: **CHSH S** vs single-variance `S(0)e^{-Var(τ₁+τ₂)/2}`; **multiphase** per-component `Var`; **empirical characteristic functions** `Re ⟨e^{iφ_{ij}}⟩` for each correlator; reconstructed **S** and comparison plots. |
+| **Module** | [`experiments/tdf_chsh_decay.py`](../experiments/tdf_chsh_decay.py) |
+| **Figures / data** | `tdf_chsh_decay.png`, `tdf_chsh_compare.png`, `tdf_chsh_components.png`, `tdf_chsh_reconstructed.png`, `tdf_chsh_multiphase_compare.png`, `tdf_chsh_cf_compare.png`; `tdf_chsh_metrics.csv`, `tdf_chsh_components.csv`, `tdf_chsh_component_metrics.csv`, `tdf_chsh_multiphase_metrics.csv`, `tdf_chsh_cf_metrics.csv`, `tdf_chsh_cf_components.csv` |
+
+---
+
 ### Orchestration
 
 Shared step runners live in [`scripts/pipeline_demo.py`](../scripts/pipeline_demo.py) (used by `python -m …` entry points and optional `--all` run). See [`REPRO.md`](REPRO.md).
