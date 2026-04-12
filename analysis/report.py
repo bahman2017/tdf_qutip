@@ -5,6 +5,7 @@ Generate a compact Markdown report from saved TDF–QM CSV outputs.
 from __future__ import annotations
 
 import csv
+import json
 import math
 from datetime import datetime, timezone
 from pathlib import Path
@@ -37,10 +38,88 @@ def _fmt(x: float | None, nd: int = 4) -> str:
     return f"{x:.{nd}g}"
 
 
+def falsification_results_markdown(output_dir: Path | None = None) -> str:
+    """
+    Build a **TDF Falsification Results** section from optional JSON/CSV artifacts.
+
+    Reads (if present): ``non_gaussian/summary.json``, ``scaling/fit_results.json``,
+    ``threshold/critical_sigma.txt``, ``deviation/stats.json``, ``falsification/summary.json``.
+    """
+    if output_dir is None:
+        output_dir = _pkg_outputs_dir()
+    lines = [
+        "## TDF Falsification Results",
+        "",
+        "Summaries from ``experiments/*`` falsification runs (Gaussian vs non-Gaussian τ, "
+        "multi-qubit scaling, noise threshold sweep, Lindblad vs τ deviation). "
+        "Run ``python main.py --run falsification_tests`` to populate ``outputs/``.",
+        "",
+    ]
+    fals = output_dir / "falsification" / "summary.json"
+    if fals.is_file():
+        try:
+            data = json.loads(fals.read_text(encoding="utf-8"))
+            mods = data.get("modules", {})
+            bad = [k for k, v in mods.items() if v.get("status") != "ok"]
+            lines.append(
+                f"- **Suite summary:** `{fals.name}` — "
+                f"{'all OK' if not bad else 'errors in: ' + ', '.join(bad)}"
+            )
+        except (json.JSONDecodeError, OSError):
+            lines.append(f"- **Suite summary:** `{fals}` (unreadable).")
+    else:
+        lines.append("- **Suite summary:** not found (run falsification suite).")
+
+    ng = output_dir / "non_gaussian" / "summary.json"
+    if ng.is_file():
+        lines.append(f"- **Non-Gaussian τ:** `{ng.relative_to(output_dir)}` present.")
+    else:
+        lines.append("- **Non-Gaussian τ:** no `summary.json` yet.")
+
+    sc = output_dir / "scaling" / "fit_results.json"
+    if sc.is_file():
+        try:
+            fr = json.loads(sc.read_text(encoding="utf-8"))
+            ind = fr.get("independent", {})
+            lines.append(
+                f"- **Scaling (independent):** log–log slope Var vs N ≈ "
+                f"{ind.get('loglog_slope_var_vs_N', '—')} (see `scaling/scaling_data.csv`)."
+            )
+        except (json.JSONDecodeError, OSError):
+            lines.append("- **Scaling:** `fit_results.json` unreadable.")
+    else:
+        lines.append("- **Scaling:** not run.")
+
+    th = output_dir / "threshold" / "critical_sigma.txt"
+    if th.is_file():
+        first = th.read_text(encoding="utf-8").strip().split("\n")[0]
+        lines.append(f"- **Threshold:** {first}")
+    else:
+        lines.append("- **Threshold:** `critical_sigma.txt` not found.")
+
+    dv = output_dir / "deviation" / "stats.json"
+    if dv.is_file():
+        try:
+            st = json.loads(dv.read_text(encoding="utf-8"))
+            mx = st.get("max_mean_delta", None)
+            lines.append(
+                f"- **Lindblad vs τ:** max mean |ΔC| over time ≈ {_fmt(mx) if mx is not None else '—'} "
+                f"(see `deviation/stats.json`)."
+            )
+        except (json.JSONDecodeError, OSError):
+            lines.append("- **Lindblad vs τ:** stats unreadable.")
+    else:
+        lines.append("- **Lindblad vs τ:** not run.")
+
+    lines.append("")
+    return "\n".join(lines)
+
+
 def generate_tdf_report(
     *,
     output_dir: Path | None = None,
     report_name: str = "tdf_qutip_report.md",
+    include_falsification: bool = False,
 ) -> Path:
     """
     Read ``tau_model_summary.csv`` and ``interference_sweep.csv``, write ``tdf_qutip_report.md``.
@@ -217,9 +296,24 @@ def generate_tdf_report(
         "",
     ]
 
+    if include_falsification:
+        lines.extend(falsification_results_markdown(output_dir).splitlines())
+
     out_path = output_dir / report_name
     out_path.write_text("\n".join(lines), encoding="utf-8")
     return out_path
+
+
+def append_falsification_to_report(
+    report_path: Path,
+    *,
+    output_dir: Path | None = None,
+) -> Path:
+    """Append :func:`falsification_results_markdown` to an existing Markdown report file."""
+    block = "\n\n" + falsification_results_markdown(output_dir)
+    existing = report_path.read_text(encoding="utf-8")
+    report_path.write_text(existing + block, encoding="utf-8")
+    return report_path
 
 
 if __name__ == "__main__":

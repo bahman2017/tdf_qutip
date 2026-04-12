@@ -153,6 +153,30 @@ Details and figure roles: [`PIPELINE_STEPS.md`](PIPELINE_STEPS.md) §13, [`RESUL
 
 ---
 
+## TDF falsification tests (non-Gaussian τ, scaling, threshold, Lindblad deviation)
+
+Orchestrated run (writes under ``outputs/non_gaussian/``, ``outputs/scaling/``, ``outputs/threshold/``, ``outputs/deviation/``, plus ``outputs/falsification/summary.json``; updates or creates falsification Markdown snippet):
+
+```bash
+export PYTHONPATH=.
+python main.py --run falsification_tests
+# shorter smoke test:
+python main.py --run falsification_tests --fast
+```
+
+Individual entry points:
+
+```bash
+python -m experiments.non_gaussian_tau_test
+python -m experiments.tau_scaling_test
+python -m experiments.tau_threshold_test
+python -m experiments.tdf_vs_lindblad_deviation
+```
+
+After a full ``main.py`` pipeline has produced ``outputs/tdf_qutip_report.md``, the suite **appends** a **TDF Falsification Results** section to that file; it always writes ``outputs/tdf_qutip_falsification_section.md`` as a standalone snippet. See [`analysis/report.py`](../analysis/report.py) (`falsification_results_markdown`, `append_falsification_to_report`).
+
+---
+
 ## Refresh the figures index
 
 After generating PNGs:

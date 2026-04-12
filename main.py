@@ -2,11 +2,17 @@
 Entry point for quick runs or batch experiments.
 
 Ramsey analysis: standard vs TDF τ-model comparison plots and phase observables.
+
+CLI::
+
+    python main.py                      # default Ramsey + pipeline demo
+    python main.py --run falsification_tests
 """
 
 from __future__ import annotations
 
 import csv
+import sys
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -17,7 +23,11 @@ from analysis.discrimination import (
     run_tdf_discrimination_summary_v2,
 )
 from analysis.plots import plot_timeseries
-from analysis.report import generate_tdf_report
+from analysis.report import (
+    append_falsification_to_report,
+    falsification_results_markdown,
+    generate_tdf_report,
+)
 from analysis.tau_extraction import fit_tau_from_correlations
 from analysis.tau_model_spectrum import analyze_tau_models, phase_magnitude
 from experiments.correlation_test import run_two_qubit_correlation_experiment
@@ -158,7 +168,30 @@ def run_tau_model_frequency_comparison(
     return rows
 
 
-def main() -> None:
+def run_falsification_tests_entry(*, fast: bool = False) -> None:
+    """Run TDF falsification suite and append results to the Markdown report."""
+    from experiments.falsification_suite import run_all_falsification_tests
+
+    out_dir = Path(__file__).resolve().parent / "outputs"
+    print("Running TDF falsification test suite...")
+    summary = run_all_falsification_tests(output_root=out_dir, fast=fast)
+    print("Falsification suite finished:", summary.get("summary_path", ""))
+    snippet = out_dir / "tdf_qutip_falsification_section.md"
+    snippet.write_text(falsification_results_markdown(out_dir), encoding="utf-8")
+    print(f"Wrote standalone falsification Markdown: {snippet}")
+    report_md = out_dir / "tdf_qutip_report.md"
+    if report_md.is_file():
+        append_falsification_to_report(report_md, output_dir=out_dir)
+        print(f"Appended falsification section to {report_md}")
+
+
+def main(argv: list[str] | None = None) -> None:
+    argv = argv if argv is not None else sys.argv[1:]
+    if len(argv) >= 2 and argv[0] == "--run" and argv[1] == "falsification_tests":
+        fast = "--fast" in argv
+        run_falsification_tests_entry(fast=fast)
+        return
+
     print("Running TDF vs Standard comparison...")
 
     t, result_standard, result_tau, tau = run_ramsey_experiment()
@@ -242,7 +275,7 @@ def main() -> None:
     out_dir = Path(__file__).resolve().parent / "outputs"
     run_interference_parameter_sweep(t=t, output_dir=out_dir, plot=True, show=False)
 
-    report_path = generate_tdf_report(output_dir=out_dir)
+    report_path = generate_tdf_report(output_dir=out_dir, include_falsification=False)
     print(f"Wrote {report_path}")
 
     print()

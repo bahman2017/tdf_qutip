@@ -188,6 +188,19 @@ Shared classical **τ** construction: **Case A** independent Wieners on two legs
 
 ---
 
+### 14. TDF falsification tests (non-Gaussian τ, scaling, threshold, Lindblad deviation)
+
+| | |
+|---|---|
+| **Purpose** | Stress τ vs **Gaussian** variance laws and **Markovian Lindblad**: heavy-tailed / skew / bimodal paths; ``Var(Σ τ)`` vs ``N``; critical ``σ`` sweep; matched short-time Lindblad vs τ + bootstrap on ``|ΔC|``. |
+| **Orchestrator** | [`experiments/falsification_suite.py`](../experiments/falsification_suite.py) — `run_all_falsification_tests` |
+| **Modules** | [`experiments/non_gaussian_tau_test.py`](../experiments/non_gaussian_tau_test.py), [`experiments/tau_scaling_test.py`](../experiments/tau_scaling_test.py), [`experiments/tau_threshold_test.py`](../experiments/tau_threshold_test.py), [`experiments/tdf_vs_lindblad_deviation.py`](../experiments/tdf_vs_lindblad_deviation.py) |
+| **τ paths** | [`core/tau_non_gaussian.py`](../core/tau_non_gaussian.py); pointer at end of [`core/tau_model.py`](../core/tau_model.py) |
+| **Figures / data** | ``outputs/non_gaussian/``, ``outputs/scaling/``, ``outputs/threshold/``, ``outputs/deviation/``, ``outputs/falsification/summary.json``, ``outputs/tdf_qutip_falsification_section.md`` |
+| **CLI** | ``python main.py --run falsification_tests`` ([`REPRO.md`](REPRO.md)); optional ``--fast`` |
+
+---
+
 ### Orchestration
 
 Shared step runners live in [`scripts/pipeline_demo.py`](../scripts/pipeline_demo.py) (used by `python -m …` entry points and optional `--all` run). See [`REPRO.md`](REPRO.md).

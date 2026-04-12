@@ -265,3 +265,7 @@ def multi_scale_tau(t: np.ndarray | float | list[float], omega: float) -> np.nda
     """
     t_arr = _as_tau_array(t)
     return omega * t_arr + 0.5 * np.sin(2.0 * t_arr) + 0.2 * np.sin(5.0 * t_arr)
+
+
+# Non-Gaussian τ increment paths (Student-t, skew-normal, bimodal) live in
+# :mod:`core.tau_non_gaussian` for falsification experiments; import that module directly.
